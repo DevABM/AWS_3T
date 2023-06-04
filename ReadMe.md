@@ -3,3 +3,5 @@ Here I am going to create a web tier, app tier and database tier and connect the
 WEB Tier:
 APP Tier:
 Database Tier
+
+first i will be creatinga VPC and 6 subnets in AZs 
