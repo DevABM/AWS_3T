@@ -1,0 +1,60 @@
+Have you ever wondered how your favorite web applications provide you with their services? How Netflix serves up your favorite movies and shows or how Amazon brings an item from your computer screen to your front door? The answer is simple (not really). Cloud Engineers are taking advantage of what’s known as a 3-Tier Architecture. In essence it’s the practice of logically separating the different parts of your web apps into 3 distinct tiers. They do this in order to improve performance, lower costs and make the application easier to update and maintain. By decoupling the different components of the application, they ensure that if one part were to fail, the other parts would remain unaffected. This in turn allows for high availability.
+
+What is three-tier architecture?
+Three-tier architecture is client-server architecture. The application is separated into physical computing tiers, which means the business logic, data storage, data access, and user interface are developed and maintained as single modules on separate platforms.
+Similarly to the three-layer architecture, the three-tier architecture classifies an application into three main logical components but deploy them on different physical computing tiers:
+		Presentation tierThe tier is the user interface of the application, where users interact with the application. Its main purpose is to display information to and collect data from users. This is the top-most level in the architecture and can be run on the web browser or a desktop/mobile application. 
+		Application tierThis is the heart of the application, better known as the logic tier or middle tier. It coordinates all business logic of the application, prescribes how business objects interact with each other. It handles collected information from the Presentation tier. During the process, this tier may need to access the Data-tier to retrieve or modify the data. In a three-tier application, all communication goes smoothly through the Application tier. The Presentation tier and the Data-tier can not communicate directly with one another.
+		Data-tierThe Data-tier is sometimes referred to as the database tier, where it stores and manages the data processed by the Application tier. 
+ 
+What are the differences between layer and tier?
+There are divergent opinions on this issue. Layer and tier are often used interchangeably - this is a mistake.
+The critical difference between layer and tier is about how it is organized. A multi-layer architecture refers to separating the application into multiple logical units that run on the same infrastructure. In contrast, a multi-tier architecture refers to separating the application into numerous physical units that run on separated infrastructures.
+
+From that point of view, a tier can contain multiple layers. For example, a camera application on your phone is n-layer; it also can be called a single-tier application as all of the processes are executed on your phone:
+		Presentation layer: a user interacts with the app to capture an image
+		Business Logic layer: the app handles the captured image by converting it to binary, then sends the handled information to the Data Access layer.
+		Data Access layer: the app accesses the memory on your device to store the handled information.
+ 
+Why is three-tier architecture the most common use?
+Because of the logical and physical separation of functionality, each tier can run on a separate hosting environment. Typical servers to deploy a three-tier application are web server, application server, and database server, each serves appropriate functional requirements. Each tier operates separately, so its services can be customized and optimized without affecting the other tiers.
+ 
+		Speed up the development: As each tier can be enhanced simultaneously by different teams, so time to market of the product is optimized, and developers can use the latest tools and the best languages for each tier.
+		Improve the scalability: By deploying the application on different tiers, we are able to scale any tier independently of the others at any given time.
+		Improve the reliability: Because it has different tiers, we can also boost reliability and availability by running disparate parts of your application on distinct servers and employing cached results.
+		Improve the security: By using a well-designed application tier, it functions as a sort of internal firewall, which will help to prevent SQL injections and other malicious exploits.
+		
+
+Terminology:
+VPC — Virtual Private Cloud is your own little slice of the aws cloud platform. This is the environment you will build your applications in.
+
+Subnet — A subnet is a smaller portion of the VPC’s available IP addresses which have been logically segmented from the rest of the IP addresses. A subnet can be either private or public
+Route Table — A route table needs to be explicitly associated with one or more subnets. Once associated, the route table is responsible for defining the flow of outgoing traffic.
+
+Internet Gateway — This is your connection to the public internet. IGW’s need to be attached to a VPC. Once they are, you can use it as a target for a route table for any traffic destined for the internet.
+
+NAT Gateway — A NAT Gateway provides public internet access to a private subnet. The way this is done is by placing it in a public subnet and then adding it to a route table associated with a private subnet. NAT Gateways are used for outbound traffic, which is why they are added to route tables.
+
+Security Group — Security groups are used to define the flow of incoming traffic. For example, you could set an inbound rule to restrict SSH over port 22 to a specific group of IP addresses.
+
+AWS Systems Manager — AWS Systems Manager (SSM) is a tool you can use to securely connect to your AWS resources.
+
+IAM Role -An IAM role is an entity within AWS that defines a set of permissions and policies. It is not tied to a specific user or group, but rather can be assumed by trusted entities such as AWS services, applications, or users from different AWS accounts.
+
+
+Elastic IP — An Elastic IP address is a public IP address that gets allocated from Amazon’s public IP address pool for your account.
+
+Load Balancer — A load balancer evenly distributes the incoming traffic to the instances of all subnets it is associated with.
+Target Group — A target group defines the port your load balancer will be listening on for incoming traffic. For example, If I create an Instance type target group listening for HTTP traffic on port 80, then add that target group to a load balancer, any incoming traffic that meets that condition can be forwarded to an instance that is in one of the subnets behind the load balancer.
+Auto Scaling Group — An auto scaling group is a group of EC2 instances that can be scaled up or down horizontally to meet the compute demand of your application.
+Launch Template — A launch template is the blueprint for the auto scaling group. It defines things like which ami to use as well as what kind of instance type.
+
+I think that just about covers it as far as terminology goes. Now, let’s get into the good stuff!
+
+
+
+
+In this architecture, a public-facing Application Load Balancer forwards client traffic to our web tier EC2 instances. The web tier is running Nginx webservers that are configured to serve a React.js website and redirects our API calls to the application tier’s internal facing load balancer. The internal facing load balancer then forwards that traffic to the application tier, which is written in Node.js. The application tier manipulates data in an Aurora MySQL multi-AZ database and returns it to our web tier. Load balancing, health checks and autoscaling groups are created at each layer to maintain the availability of this architecture.
+
+
+
