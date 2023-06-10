@@ -14,3 +14,4 @@ we have to add internet traffic to our public subnets which is done by Internet 
 Private subnets talk to internet through NAT Gateway
  
  Security Groups will be controlling the inbound rules and the Routing Tables helps to mange the flow through the subnets.
+user data will help in installing the required software for the virtual machine we need.
